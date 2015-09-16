@@ -43,7 +43,7 @@ namespace MRLamb
             currentLine++;
             if (currentLine <= text.Count)
             {
-                return text[currentLine];
+                return text[currentLine - 1];
             }
             else
             {
@@ -70,7 +70,7 @@ namespace MRLamb
         {
             return text.Count;
         }
-
+        
 
         /// <summary>
         /// Allows you to skip forward or backward through the file. Any number 
@@ -90,7 +90,7 @@ namespace MRLamb
             }
             else
             {
-                currentLine = text.Count - 2;
+                currentLine = text.Count - 1;
             }
         }
 
