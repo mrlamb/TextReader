@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 using System.IO;
 
 namespace MRLamb
-{
+{   
+    /// <summary>
+    /// Class which reads a text file and inserts each line into a List called text.
+    /// </summary>
     public class TextReader
-    {
+    {   
+        /// <summary>
+        /// List of Strings containing the content of the text file.
+        /// </summary>
         public List<String> text = new List<String>();
         private int currentLine = 0;
         /// <summary>
@@ -32,12 +38,13 @@ namespace MRLamb
                 throw e;
             }
             
+            
         }
 
         /// <summary>
-        /// Returns the next line from the text. If no more lines are available, returns an empty string.
+        /// Returns next line of text or throws exception if nothing left to return from list.
         /// </summary>
-        /// <returns>String</returns>
+        /// <returns>String nextLine</returns>
         public string GetNextLine()
         {
             currentLine++;
@@ -74,7 +81,7 @@ namespace MRLamb
 
         /// <summary>
         /// Allows you to skip forward or backward through the file. Any number 
-        /// < 0 will reset to the start of the file, any number greater then the 
+        /// less then 0 will reset to the start of the file, any number greater then the 
         /// total number of lines will prepare to send the last line.
         /// </summary>
         /// <param name="line">int lineNumber</param>
