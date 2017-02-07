@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 using System.IO;
 
 namespace MRLamb
-{   
+{
     /// <summary>
     /// Class which reads a text file and inserts each line into a List called text.
     /// </summary>
-    public class TextReader
-    {   
-        /// <summary>
-        /// List of Strings containing the content of the text file.
-        /// </summary>
-        public List<String> text = new List<String>();
-        private int currentLine = 0;
+    public class TextReader : List<String>
+    {
         /// <summary>
         /// Instantiate class with the path name of the file to be read in.
         /// </summary>
@@ -29,7 +24,7 @@ namespace MRLamb
                 {
                     while (!sr.EndOfStream)
                     {
-                        text.Add(sr.ReadLine());
+                        this.Add(sr.ReadLine());
                     }
                 }
             }
@@ -37,72 +32,72 @@ namespace MRLamb
             {
                 throw e;
             }
-            
-            
+
+
         }
 
         /// <summary>
-        /// Returns next line of text or throws exception if nothing left to return from list.
+        /// Base Constructor. Would need to initialize
         /// </summary>
-        /// <returns>String nextLine</returns>
-        public string GetNextLine()
+        public TextReader()
         {
-            currentLine++;
-            if (currentLine <= text.Count)
-            {
-                return text[currentLine - 1];
-            }
-            else
-            {
-                throw new Exception("No more lines to be read.");
-            }
-            
+
         }
 
         /// <summary>
-        /// If using GetNextLine, resets the line you were on and returns the first line over again
+        /// Loads a file into the list, but empties the list first.
         /// </summary>
-        /// <returns>String</returns>
-        public string StartOver()
+        /// <param name="path"></param>
+        public void LoadFile(string path)
         {
-            currentLine = 1;
-            return text[currentLine - 1];
+            Empty();
+            try
+            {
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        this.Add(sr.ReadLine());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         /// <summary>
-        /// Returns the total number of lines in your text file
+        /// Adds a file to the existing list, use Empty to remove everything before adding, or LoadFile to do both.
         /// </summary>
-        /// <returns>Int</returns>
-        public int GetTotalLines()
+        /// <param name="path"></param>
+        public void AppendFile(string path)
         {
-            return text.Count;
+            try
+            {
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        this.Add(sr.ReadLine());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
-        
 
         /// <summary>
-        /// Allows you to skip forward or backward through the file. Any number 
-        /// less then 0 will reset to the start of the file, any number greater then the 
-        /// total number of lines will prepare to send the last line.
+        /// Empties the list of all entries. LoadFile does this before adding to the list.
         /// </summary>
-        /// <param name="line">int lineNumber</param>
-        public void SkipTo(int line)
+        public void Empty()
         {
-            if (line < 0)
+            if (this.Count > 0)
             {
-                currentLine = 0;
-            }
-            else if (line <= text.Count)
-            {
-                currentLine = line;
-            }
-            else
-            {
-                currentLine = text.Count - 1;
+                this.RemoveRange(0, this.Count);
             }
         }
-
-
-
     }
-
 }
